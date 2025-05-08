@@ -95,5 +95,69 @@ bool boggleHelper(const std::set<std::string>& dict, const std::set<std::string>
 								   std::string word, std::set<std::string>& result, unsigned int r, unsigned int c, int dr, int dc)
 {
 //add your solution here!
+  if (r >= board.size() || c >= board.size()) {
+    return false; //out of bounds
+  }
 
+  word += board[r][c]; //add to word
+
+  //if not prefix, stop
+  if (prefix.find(word) == prefix.end()){
+    return false;
+  }
+
+  //bool foundLonger = false;
+
+  /*
+  if (dict.find(word) != dict.end()) {
+    //only insert if longer
+    auto it = result.lower_bound(word.substr(0, word.size() - 1));
+    if (it == result.end() || it->substr(0, word.size()) != word){
+      for (auto rit = result.begin(); rit != result.end();){
+        if (rit->substr(0, word.size()) == word){
+          rit = result.erase(rit);
+        }
+        else {
+          rit++;
+        }
+      }
+      result.insert(word);
+      foundLonger = true; 
+    }
+  }
+
+  //RECURSE
+  if (boggleHelper(dict, prefix, board, word, result, r +dr, c + dc, dr, dc)){
+    foundLonger = true;
+  }
+  
+  return foundLonger; 
+
+  */
+
+  /*
+  //2ND ATTEMPT WHICH ALSO DOESNT WORK BRH
+  if (dict.find(word) != dict.end()){
+    result.insert(word);
+    foundLonger = true;
+  }
+
+  if (r + dr < board.size() && c + dc < board.size()) {
+		if (boggleHelper(dict, prefix, board, word, result, r + dr, c + dc, dr, dc)) {
+			foundLonger = true;
+		}
+	}
+
+  return foundLonger; 
+  */
+
+   bool foundLonger = boggleHelper(dict, prefix, board, word, result, r + dr, c + dc, dr, dc);
+
+    // If this is a complete word and no longer one was found in this direction
+    if (!foundLonger && dict.find(word) != dict.end()) {
+        result.insert(word);
+        return true;
+    }
+
+    return foundLonger;
 }
